@@ -3,16 +3,17 @@ import numpy as np
 
 
 class Fognode:
-    def __init__(self, power, computingRate, parallelism, distance):
+    def __init__(self, power, computingRate, parallelism, distance, transmissionPower):
         self.power = power
         self.computingRate = computingRate
         self.parallelism = parallelism
         self.distance = distance
+        self.transmissionPower = transmissionPower
 
     def convertFogAttributesToList(self):
         list = []
         list.extend([self.power, self.computingRate,
-                    self.parallelism, self.distance])
+                    self.parallelism, self.distance, self.transmissionPower])
         return list
 
     def showFogNodeAttributes(self):
@@ -36,8 +37,9 @@ def generateFogNodes(count):
     for i in range(count):
         dist = random.randint(10, 50)
         parallelism = random.randint(3, 8)
+        transmissionPower = random.randint(10, 20)
         f = Fognode(
-            powerNormalDistributed[i], rateNormalDistributed[i], parallelism, dist)
+            powerNormalDistributed[i], rateNormalDistributed[i], parallelism, dist, transmissionPower)
         fogNodes.append(f)
 
     return fogNodes

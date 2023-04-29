@@ -23,3 +23,24 @@ def minmax_normalization(x, cost=False):
     if cost:
         return (np.max(x) - x) / (np.max(x) - np.min(x))
     return (x - np.min(x)) / (np.max(x) - np.min(x))
+
+
+def sum_normalization(x, cost=False):
+    """Calculate the normalized vector using the sum method.
+
+    Parameters
+    ----------
+        x : ndarray
+            One-dimensional numpy array of values to be normalized
+
+        cost : bool, optional
+            Vector type. Default profit type.
+
+    Returns
+    -------
+        ndarray
+            One-dimensional numpy array of normalized values.
+    """
+    if cost:
+        return (1 / x) / np.sum(1 / x)
+    return x / np.sum(x)
