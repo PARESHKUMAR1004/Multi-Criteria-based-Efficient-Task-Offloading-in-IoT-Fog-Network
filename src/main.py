@@ -4,10 +4,14 @@ from normalisations import minmax_normalization
 from weights import critic_weights
 from Task import Task, generateTasks, convertTasksToMatrix
 from Fognode import Fognode, convertFogNodesToMatrix, generateFogNodes
+# from methods import TOPSIS
+from methods.TOPSIS import TOPSIS
+from helpers import rrankdata
+from mcda_method_call import getOrderByTopsis
+from matchTaskandFogNode import matchTaskandFogNode
 
-
-task1 = Task(3000, 45, 200)
-task1.showTaskAttributes()
+topsis = TOPSIS()
+# print(topsis)
 
 
 m = convertFogNodesToMatrix(generateFogNodes(5))
@@ -20,15 +24,23 @@ def main():
     noOfFogNodes = 25
     fogNodes = generateFogNodes(noOfFogNodes)
     fogDecisionMatrix = convertFogNodesToMatrix(fogNodes)
-    for i in range(10):
+    fogNodesCriticWeight = critic_weights(fogDecisionMatrix)
+    finalFogNodesOrdering = getOrderByTopsis(
+        fogDecisionMatrix, fogNodesCriticWeight, [-1, 1, 1, -1])
+    print("Fog Nodes Ordering: ")
+    print(finalFogNodesOrdering)
+    for i in range(1):
         tasks = generateTasks(noOfTasks)
         tasksDecisionMatrix = convertTasksToMatrix(tasks)
         tasksCriticWeight = critic_weights(tasksDecisionMatrix)
-        fogNodesCriticWeight = critic_weights(fogDecisionMatrix)
-        noOfTasks = noOfTasks+10
-        print("Hiii")
-        print(tasksCriticWeight)
+        finalTaskOrdering = getOrderByTopsis(
+            tasksDecisionMatrix, tasksCriticWeight, [1, -1, 1])
 
+        print("No of Tasks: ", noOfTasks)
+        print("Final Task Ordering: ", finalTaskOrdering)
+        matchTaskandFogNode(finalTaskOrdering, finalFogNodesOrdering)
+        print("============================")
+        noOfTasks = noOfTasks+10
 
 if __name__ == "__main__":
     main()
