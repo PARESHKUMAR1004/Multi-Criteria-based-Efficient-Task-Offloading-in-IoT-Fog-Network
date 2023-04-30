@@ -39,6 +39,7 @@ def entropy_weights(matrix, *args, **kwargs):
             ndarray
                 Vector of weights.
     """
+
     m, n = matrix.shape
     # nmatrix = normalize_matrix(matrix, sum_normalization, None)
     nmatrix = sum_normalization(matrix)
