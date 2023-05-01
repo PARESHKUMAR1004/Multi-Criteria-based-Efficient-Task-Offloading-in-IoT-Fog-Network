@@ -37,7 +37,7 @@ def generateFogNodes(count):
     powerNormalDistributed = random.normal(1, 0.3, count)
     for i in range(count):
         dist = random.randint(50, 500)  # Got from chitta Sir's Paper
-        parallelism = random.randint(3, 8)
+        parallelism = random.randint(15, 30)
         # Every fog Node has it's own transmission Power
         transmissionPower = random.randint(1, 10)
         f = Fognode(

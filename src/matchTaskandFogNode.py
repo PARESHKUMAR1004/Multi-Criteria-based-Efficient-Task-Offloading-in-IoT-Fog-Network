@@ -56,7 +56,10 @@ def matchTaskandFogNode(TaskOrdering, FogNodesOrdering):
     totParallel = 0
     for fogNode in FogNodesOrdering:
         totParallel += int(fogNode[2])
-    print("Tot Parallel: ", totParallel)
+    # print("Tot Parallel: ", totParallel)
+    print("================================")
+    print("Total Parallel: ", totParallel, " total Tasks: ", noOfTasks)
+    print("==================================================")
     for fogNode in FogNodesOrdering:
         parallelism = int(fogNode[2])
         while parallelism > 0 and taskIter < noOfTasks:
