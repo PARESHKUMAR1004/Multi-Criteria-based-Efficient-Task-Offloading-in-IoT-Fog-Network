@@ -12,3 +12,4 @@ def generatePlot(X, Y1, Y2, xlabel, ylabel, legend1, legend2):
     plt.legend([legend1, legend2])
 
     plt.show()
+    

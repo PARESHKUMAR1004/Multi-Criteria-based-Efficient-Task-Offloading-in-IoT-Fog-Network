@@ -2,6 +2,8 @@ from numpy import random
 
 
 class Task:
+
+    # taskType=[1,-1,1]
     def __init__(self, taskSize, taskDeadline, outputSize):
         self.taskSize = taskSize
         self.taskDeadline = taskDeadline
@@ -15,12 +17,19 @@ class Task:
 
 def generateTasks(count):
     tasks = []
-    for i in range(count):
-        size = random.randint(2000, 5000)
-        deadline = random.randint(3000, 6000)
+    i = 0
+    while i < count:
+        size = random.randint(300, 600)*1000  # [300,600]KB
+        # [15,25] sec , Got from Chitta Sir's Paper
+        deadline = random.randint(15, 25)
         outputSize = size/(random.randint(4, 8))
         task = Task(size, deadline, outputSize)
+        if isinstance(task, int):
+            continue
+        i += 1
         tasks.append(task)
+
+
     return tasks
 
 

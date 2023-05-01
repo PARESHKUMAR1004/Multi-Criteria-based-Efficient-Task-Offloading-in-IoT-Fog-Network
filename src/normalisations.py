@@ -44,3 +44,24 @@ def sum_normalization(x, cost=False):
     if cost:
         return (1 / x) / np.sum(1 / x)
     return x / np.sum(x)
+
+
+def vector_normalization(x, cost=False):
+    """Calculate the normalized vector using the vector method.
+
+    Parameters
+    ----------
+        x : ndarray
+            One-dimensional numpy array of values to be normalized
+
+        cost : bool, optional
+            Vector type. Default profit type.
+
+    Returns
+    -------
+        ndarray
+            One-dimensional numpy array of normalized values.
+    """
+    if cost:
+        return 1 - (x / np.sqrt(sum(x ** 2)))
+    return x / np.sqrt(np.sum(x ** 2))

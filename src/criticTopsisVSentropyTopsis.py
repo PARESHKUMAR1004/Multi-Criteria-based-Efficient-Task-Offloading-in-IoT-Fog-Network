@@ -1,40 +1,35 @@
 import numpy as np
-from numpy import random
-from normalisations import minmax_normalization
+
 from weights import critic_weights, entropy_weights
-from Task import Task, generateTasks, convertTasksToMatrix
-from Fognode import Fognode, convertFogNodesToMatrix, generateFogNodes
-# from methods import TOPSIS
-from methods.TOPSIS import TOPSIS
-from helpers import rrankdata
-from mcda_method_call import getOrderByTopsis, getOrderByMoora
+from Task import generateTasks, convertTasksToMatrix
+from Fognode import convertFogNodesToMatrix, generateFogNodes
+from mcda_method_call import getOrderByTopsis
 from matchTaskandFogNode import matchTaskandFogNode
 from plot import generatePlot
 
 
 def main():
-    print("Hii")
     noOfTasks = 10
     noOfFogNodes = 25
     fogNodes = generateFogNodes(noOfFogNodes)
+    fogNodesType = [-1, 1, 1, -1, -1]
     fogDecisionMatrix = convertFogNodesToMatrix(fogNodes)
     fogNodesCriticWeight = critic_weights(fogDecisionMatrix)
     finalFogNodesOrdering = getOrderByTopsis(
-        fogDecisionMatrix, fogNodesCriticWeight, [-1, 1, 1, -1, -1])
+        fogDecisionMatrix, fogNodesCriticWeight, fogNodesType)
 
     taskCount = np.array([])
     criticLatency = np.array([])
     criticEnergy = np.array([])
     entropyLatency = np.array([])
     entropyEnergy = np.array([])
-    for i in range(30):
+    for i in range(35):
         tasks = generateTasks(noOfTasks)
         tasksDecisionMatrix = convertTasksToMatrix(tasks)
         tasksCriticWeight = critic_weights(tasksDecisionMatrix)
         tasksEntropyWeight = entropy_weights(np.array(tasksDecisionMatrix))
         print("No of Tasks: ", noOfTasks)
-        # print("Critic Weight: ", tasksCriticWeight)
-        # print("Entropy Weight: ", tasksEntropyWeight)
+
         finalEntropyTaskOrdering = getOrderByTopsis(
             tasksDecisionMatrix, tasksEntropyWeight, [1, -1, 1])
         finalCriticTaskOrdering = getOrderByTopsis(
@@ -61,16 +56,12 @@ def main():
         entropyLatency = np.append(entropyLatency, totLatencyEntropy)
         entropyEnergy = np.append(entropyEnergy, totEnergyEntropy)
 
-        # taskCount.append(noOfTasks)
-        # criticLatency.append(totLatencyCritic)
-        # criticEnergy.append(totEnergyCritic)
-
-        # entropyLatency.append(totLatencyEntropy)
-        # entropyEnergy.append(totEnergyEntropy)
-
         noOfTasks = noOfTasks+10
 
     generatePlot(taskCount, criticEnergy, entropyEnergy,
+                 "Task Count", "Energy", "with Critic", "with Entropy")
+
+    generatePlot(taskCount, criticLatency, entropyLatency,
                  "Task Count", "Latency", "with Critic", "with Entropy")
 
 

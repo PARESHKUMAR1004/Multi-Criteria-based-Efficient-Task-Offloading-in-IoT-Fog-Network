@@ -20,7 +20,7 @@ def critic_weights(matrix, *args, **kwargs):
     # nmatrix = normalize_matrix(matrix, minmax_normalization, None)
     nmatrix = minmax_normalization(matrix)
     std = np.std(nmatrix, axis=0, ddof=1)
-    coef = correlation_matrix(nmatrix, pearson, True)
+    coef = correlation_matrix(nmatrix, pearson, True) #coef= corelation matrix of the normalised matrix
     C = std * np.sum(1 - coef, axis=0)
     return C / np.sum(C)
 

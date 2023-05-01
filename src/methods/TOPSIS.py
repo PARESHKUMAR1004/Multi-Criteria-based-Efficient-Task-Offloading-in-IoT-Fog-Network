@@ -35,7 +35,7 @@ class TOPSIS(MCDA_method):
         [0.500, 0.617, 0.500]
    """
 
-    def __init__(self, normalization_function=normalisations.minmax_normalization):
+    def __init__(self, normalization_function=normalisations.vector_normalization):
         self.normalization = normalization_function
 
     def __call__(self, matrix, weights, types, *args, **kwargs):
@@ -69,7 +69,7 @@ class TOPSIS(MCDA_method):
                 matrix, self.normalization, types)
         else:
             nmatrix = helpers.normalize_matrix(
-                matrix, normalisations.minmax_normalization, types)
+                matrix, normalisations.vector_normalization, types)
         return TOPSIS._topsis(nmatrix, weights)
 
     @staticmethod

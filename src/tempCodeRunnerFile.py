@@ -1,2 +1,2 @@
-print("Critic Weight: ", tasksCriticWeight)
-        # print("Entropy Weight: ", tasksEntropyWeight)
+else:
+# Dict[33.5].append([5,6,7])

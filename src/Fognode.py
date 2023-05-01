@@ -32,12 +32,14 @@ def convertFogNodesToMatrix(fogNodes):
 
 def generateFogNodes(count):
     fogNodes = []
+    # Got from fair task offloading paper
     rateNormalDistributed = random.normal(5, 2, count)
     powerNormalDistributed = random.normal(1, 0.3, count)
     for i in range(count):
-        dist = random.randint(10, 50)
+        dist = random.randint(50, 500)  # Got from chitta Sir's Paper
         parallelism = random.randint(3, 8)
-        transmissionPower = random.randint(10, 20)
+        # Every fog Node has it's own transmission Power
+        transmissionPower = random.randint(1, 10)
         f = Fognode(
             powerNormalDistributed[i], rateNormalDistributed[i], parallelism, dist, transmissionPower)
         fogNodes.append(f)
