@@ -54,3 +54,27 @@ def entropy_weights(matrix, *args, **kwargs):
 
     E = 1 - entropies
     return E / np.sum(E)
+
+
+
+def AHP_weights(features,n):
+    pairs=np.ones((n,n))
+    for i in range(len(features)):
+        j=i+1
+        while j<len(features):
+            pairs[i, j] = float(
+                input("Enter factor of "+features[i]+" vs "+features[j]+" : "))
+            pairs[j,i]=1/pairs[i,j]
+            j+=1
+    v=np.zeros(n)
+    for i in range(n):
+        t=1
+        for j in range(n):
+            t=t*(pairs[i,j]) 
+        v[i]=t**(1/n)
+    return v/np.sum(v)       
+
+
+# if __name__ == "__main__":
+#     print(AHP_weights(["cost","loc","Rank"],3))
+

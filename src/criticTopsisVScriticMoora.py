@@ -13,8 +13,8 @@ from plot import generatePlot
 
 
 def main():
-    noOfTasks = 10
-    noOfFogNodes = 25
+    noOfTasks = 200
+    noOfFogNodes = 10
     fogNodes = generateFogNodes(noOfFogNodes)
     fogDecisionMatrix = convertFogNodesToMatrix(fogNodes)
     fogNodesCriticWeight = critic_weights(fogDecisionMatrix)
@@ -28,48 +28,47 @@ def main():
     topsisEnergy = np.array([])
     mooraLatency = np.array([])
     mooraEnergy = np.array([])
-    for i in range(100):
-        tasks = generateTasks(noOfTasks)
-        tasksDecisionMatrix = convertTasksToMatrix(tasks)
-
-        tasksCriticWeight = critic_weights(tasksDecisionMatrix)
-
-        # print("No of Tasks: ", noOfTasks)
-
-        topsisTaskOrdering = getOrderByTopsis(
-            tasksDecisionMatrix, tasksCriticWeight, [1, -1, 1])
-        mooraTaskOrdering = getOrderByMoora(
-            tasksDecisionMatrix, tasksCriticWeight, [1, -1, 1])
+    for i in range(5):
+        totLatencyTopsis=0
+        totEnergyTopsis=0
+        totLatencyMoora=0
+        totEnergyMoora=0
 
 
-        [totLatencyTopsis, totEnergyTopsis] = matchTaskandFogNode(
-            topsisTaskOrdering, FogNodesTopsisOrdering)
+        for iter in range(10):
+            tasks = generateTasks(noOfTasks)
+            tasksDecisionMatrix = convertTasksToMatrix(tasks)
 
-        [totLatencyMoora, totEnergyMoora] = matchTaskandFogNode(
-            mooraTaskOrdering, FogNodesMooraOrdering)
+            tasksCriticWeight = critic_weights(tasksDecisionMatrix)
 
-        print("totLatency: ", totLatencyTopsis, " == ", totLatencyMoora)
-        print("totEnergy: ", totEnergyTopsis, " == ", totEnergyMoora)
+        
+
+            topsisTaskOrdering = getOrderByTopsis(tasksDecisionMatrix, tasksCriticWeight, [1, -1, 1])
+            mooraTaskOrdering = getOrderByMoora(tasksDecisionMatrix, tasksCriticWeight, [1, -1, 1])
+
+
+            [LatencyTopsis, EnergyTopsis] = matchTaskandFogNode(topsisTaskOrdering, FogNodesTopsisOrdering)
+            [LatencyMoora, EnergyMoora] = matchTaskandFogNode(mooraTaskOrdering, FogNodesMooraOrdering)
+            totLatencyTopsis+=LatencyTopsis
+            totEnergyTopsis+=EnergyTopsis
+            totLatencyMoora+=LatencyMoora
+            totEnergyMoora+=EnergyMoora
+
+        # print("totLatency: ", totLatencyTopsis, " == ", totLatencyMoora)
+        # print("totEnergy: ", totEnergyTopsis, " == ", totEnergyMoora)
 
         taskCount = np.append(taskCount, noOfTasks)
-        topsisLatency = np.append(topsisLatency, totLatencyTopsis)
-        topsisEnergy = np.append(topsisEnergy, totEnergyTopsis)
+        topsisLatency = np.append(topsisLatency, totLatencyTopsis/10)
+        topsisEnergy = np.append(topsisEnergy, totEnergyTopsis/10)
 
-        mooraLatency = np.append(mooraLatency, totLatencyMoora)
-        mooraEnergy = np.append(mooraEnergy, totEnergyMoora)
+        mooraLatency = np.append(mooraLatency, totLatencyMoora/10)
+        mooraEnergy = np.append(mooraEnergy, totEnergyMoora/10)
 
-        noOfTasks = noOfTasks+10
+        noOfTasks = noOfTasks+200
 
-    print("==============================")
-    print("For Energy: ")
-    print("Topsis ENergy: ", topsisEnergy)
-    print("Moora Energy: ", mooraEnergy)
-    print("==============================")
-    print("==============================")
-    print("For letency : ")
-    print("Topsis Latency: ", topsisLatency)
-    print("Moora Latency: ", mooraLatency)
-    print("==============================")
+    for j in range(len(topsisEnergy)):
+        print("Energy: ",topsisEnergy[j]," ",mooraEnergy[j])
+        print("Latency: ",topsisLatency[j]," ",mooraLatency[j])
     generatePlot(taskCount, topsisEnergy, mooraEnergy,
                  "Task Count", "Energy", "with TOPSIS", "with MOORA")
 

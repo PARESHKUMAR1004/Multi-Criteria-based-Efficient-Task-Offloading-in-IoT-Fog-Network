@@ -2,18 +2,23 @@ import numpy as np
 from methods.TOPSIS import TOPSIS
 from methods.moora import MOORA
 from methods.vikor import VIKOR
-from helpers import rrankdata
+from methods.marcos import MARCOS
+from helpers import rrankdata,rankdata
 
-topsis = TOPSIS()
-moora = MOORA()
-vikor=VIKOR()
+
+
+
 
 
 def getFinalRankTable(DecisionMatrix, ranking, PrefValue):
+    # DecisionMatrix=list(DecisionMatrix)
     table = []
     for r, task in zip(ranking, DecisionMatrix):
-        # print(r, " ", task)
-        table.append([r,task])
+        table.append([r,list(task)])
+
+    # print("Table Here: ",table)
+    # table(np.array(table))
+    # table=table[table[:,0].argsort()]
     table=sorted(table)
     finalAlternativeTable = []
     for t in table:
@@ -22,8 +27,11 @@ def getFinalRankTable(DecisionMatrix, ranking, PrefValue):
 
 
 
-def getOrderByTopsis(DecisionMatrix, Weight, types):
-    PrefValue = topsis(np.array(DecisionMatrix),
+def getOrderByTopsis(DecisionMatrix, Weight, types,columns):
+    topsis = TOPSIS()
+    # print("Decision Matrix: ",DecisionMatrix)
+    # print("Changed Matrix: ",DecisionMatrix[:,:columns])
+    PrefValue = topsis(DecisionMatrix[:,:columns],
                        np.array(Weight), np.array(types))
     ranking = rrankdata(PrefValue)
     finalAlternativeTable = getFinalRankTable(
@@ -31,8 +39,9 @@ def getOrderByTopsis(DecisionMatrix, Weight, types):
     return finalAlternativeTable
 
 
-def getOrderByMoora(DecisionMatrix, Weight, types):
-    PrefValue = moora(np.array(DecisionMatrix),
+def getOrderByMoora(DecisionMatrix, Weight, types,columns):
+    moora = MOORA()
+    PrefValue = moora(DecisionMatrix[:, :columns],
                       np.array(Weight), np.array(types))
     ranking = rrankdata(PrefValue)
     finalAlternativeTable = getFinalRankTable(
@@ -40,12 +49,22 @@ def getOrderByMoora(DecisionMatrix, Weight, types):
     return finalAlternativeTable
 
 
-def getOrderByVikor(DecisionMatrix, Weight, types):
-    PrefValue = vikor(np.array(DecisionMatrix),
+def getOrderByVikor(DecisionMatrix, Weight, types,columns):
+    vikor = VIKOR()
+    PrefValue = vikor(DecisionMatrix[:, :columns],
+                      np.array(Weight), np.array(types))
+    ranking = rankdata(PrefValue)
+    finalAlternativeTable = getFinalRankTable(
+        DecisionMatrix, ranking, PrefValue)
+    return finalAlternativeTable
+
+
+def getOrderByMarcos(DecisionMatrix, Weight, types,columns):
+    marcos=MARCOS()
+    PrefValue = marcos(DecisionMatrix[:, :columns],
                       np.array(Weight), np.array(types))
     ranking = rrankdata(PrefValue)
     finalAlternativeTable = getFinalRankTable(
         DecisionMatrix, ranking, PrefValue)
     return finalAlternativeTable
-
 

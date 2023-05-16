@@ -19,9 +19,9 @@ def generateTasks(count):
     tasks = []
     i = 0
     while i < count:
-        size = random.randint(300, 600)*1000  # [300,600]KB
+        size = random.randint(300, 600)*8*1024  # [300,600]KB
         # [15,25] sec , Got from Chitta Sir's Paper
-        deadline = random.randint(15, 25)
+        deadline = random.uniform(0.7, 1.2)
         outputSize = size/(random.randint(4, 8))
         task = Task(size, deadline, outputSize)
         if isinstance(task, int):

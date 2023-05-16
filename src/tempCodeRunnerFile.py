@@ -1,4 +1,3 @@
-print("**************************")
-        # print("Tasks Decision Matrix Here: ")
-        # for task in tasksDecisionMatrix:
-        #     print("Task: ",task)
+
+
+\begin{align*} & ext.  {C}_{1}  {C}_{2} \cdots  {C}_{n} \\&\ {boldsymbol {X}} = {\begin{array}{cccccccccccccccccccc}  {boldsymbol {A}}(AI) \\  {boldsymbol {A}}_{1} \\  {boldsymbol {A}}_{2} \\ \vdots \\  {boldsymbol {A}}_{m} \\  {boldsymbol {A}}(ID) \\ \end{array}}\left[{{{\begin{array}{cccccccccccccccccccc} {{X}_{ai1}} & {{X}_{ai2}} & \cdots & {{X}_{ain}} \\ {{X}_{11}} & {{X}_{12}} & \cdots & {{X}_{1n}} \\ {{X}_{21}} & { {X}_{22}} & \cdots & { {X}_{ai1}} \\ \vdots & \vdots & \ddots & \vdots \\ { {X}_{m1}} & { {X}_{m2}} & \cdots & { {X}_{mn}} \\ { {X}_{id1}} & { {X}_{id2}} & \cdots & { {X}_{idn}} \\ \end{array}}}}\right] \tag{2}\\& {boldsymbol {A}}(AI) =\min \limits _{i}  {x}_{ij} if j\in B and max \limits _{i}  {x}_{ij} if j\in C \tag{3}\\& {boldsymbol {A}}(DI) =\max \limits _{i}  {x}_{ij} if j\in B and min \limits _{i}  {x}_{ij} if j\in C\tag{4}\end{align*}
